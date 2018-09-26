@@ -147,23 +147,6 @@
 -   lineinfile:
         create: true
         dest: /etc/ssh/sshd_config
-        line: IgnoreUserKnownHosts yes
-        regexp: ^IgnoreUserKnownHosts
-        validate: sshd -t -f %s
-    name: Disable SSH Support for User Known Hosts
-    tags:
-    - sshd_disable_user_known_hosts
-    - medium_severity
-    - restrict_strategy
-    - low_complexity
-    - low_disruption
-    - CCE-80372-6
-    - NIST-800-53-CM-6(a)
-    - NIST-800-171-3.1.12
-    - DISA-STIG-RHEL-07-040380
--   lineinfile:
-        create: true
-        dest: /etc/ssh/sshd_config
         line: PermitEmptyPasswords no
         regexp: ^PermitEmptyPasswords
         validate: sshd -t -f %s
@@ -266,23 +249,6 @@
     - NIST-800-171-3.13.11
     - NIST-800-171-3.13.8
     - DISA-STIG-RHEL-07-040400
--   lineinfile:
-        create: true
-        dest: /etc/ssh/sshd_config
-        line: KerberosAuthentication no
-        regexp: (?i)^#?kerberosauthentication
-        validate: sshd -t -f %s
-    name: Disable Kerberos Authentication
-    tags:
-    - sshd_disable_kerb_auth
-    - medium_severity
-    - restrict_strategy
-    - low_complexity
-    - low_disruption
-    - CCE-80221-5
-    - NIST-800-53-CM-6(c)
-    - NIST-800-171-3.1.12
-    - DISA-STIG-RHEL-07-040440
 -   lineinfile:
         dest: /etc/ssh/sshd_config
         line: Protocol 2
@@ -463,23 +429,6 @@
     - CCE-80225-6
     - NIST-800-53-AC-9
     - DISA-STIG-RHEL-07-040360
--   lineinfile:
-        create: true
-        dest: /etc/ssh/sshd_config
-        line: GSSAPIAuthentication no
-        regexp: (?i)^#?gssapiauthentication
-        validate: sshd -t -f %s
-    name: Disable GSSAPI Authentication
-    tags:
-    - sshd_disable_gssapi_auth
-    - medium_severity
-    - restrict_strategy
-    - low_complexity
-    - low_disruption
-    - CCE-80220-7
-    - NIST-800-53-CM-6(c)
-    - NIST-800-171-3.1.12
-    - DISA-STIG-RHEL-07-040430
 -   lineinfile:
         create: true
         dest: /etc/ssh/sshd_config
@@ -854,49 +803,6 @@
     - NIST-800-171-3.1.2
     - NIST-800-171-3.7.2
     - DISA-STIG-RHEL-07-020220
--   lineinfile:
-        create: true
-        line: SELINUX={{ var_selinux_state }}
-        path: /etc/sysconfig/selinux
-        regexp: ^SELINUX=
-    name: Ensure SELinux State is Enforcing
-    tags:
-    - selinux_state
-    - high_severity
-    - restrict_strategy
-    - low_complexity
-    - low_disruption
-    - CCE-27334-2
-    - NIST-800-53-AC-3
-    - NIST-800-53-AC-3(3)
-    - NIST-800-53-AC-3(4)
-    - NIST-800-53-AC-4
-    - NIST-800-53-AC-6
-    - NIST-800-53-AU-9
-    - NIST-800-53-SI-6(a)
-    - NIST-800-171-3.1.2
-    - NIST-800-171-3.7.2
-    - DISA-STIG-RHEL-07-020210
--   lineinfile:
-        create: true
-        dest: /etc/default/useradd
-        line: INACTIVE={{ var_account_disable_post_pw_expiration }}
-        regexp: ^INACTIVE
-    name: Set Account Expiration Following Inactivity
-    tags:
-    - account_disable_post_pw_expiration
-    - medium_severity
-    - restrict_strategy
-    - low_complexity
-    - low_disruption
-    - CCE-27355-7
-    - NIST-800-53-AC-2(2)
-    - NIST-800-53-AC-2(3)
-    - NIST-800-53-IA-4(e)
-    - NIST-800-171-3.5.6
-    - PCI-DSS-Req-8.1.4
-    - CJIS-5.6.2.1.1
-    - DISA-STIG-RHEL-07-010310
 -   lineinfile:
         create: true
         dest: /etc/login.defs
