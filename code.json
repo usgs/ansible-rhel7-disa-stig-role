@@ -1,0 +1,50 @@
+[
+  {
+    "name": "ansible-rhel7-disa-stig-role",
+    "organization": "U.S. Geological Survey",
+    "description": "USGS STIG for RHEL 7 (and similar) systems",
+    "version": "0.0.0",
+    "status": "Development",
+
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://github.com/usgs/ansible-rhel7-disa-stig-role/blob/master/LICENSE.md"
+        }
+      ]
+    },
+
+    "homepageURL": "https://usgs.github.io/ansible-rhel7-disa-stig-role/",
+    "downloadURL": "https://github.com/usgs/ansible-rhel7-disa-stig-role/archive/master.zip",
+    "disclaimerURL": "https://github.com/usgs/ansible-rhel7-disa-stig-role/blob/master/DISCLAIMER.md",
+    "repositoryURL": "https://github.com/usgs/ansible-rhel7-disa-stig-role.git",
+    "vcs": "git",
+
+    "laborHours": 0,
+
+    "tags": [
+      "USGS",
+      "BUTST",
+      "RHEL",
+      "RHEL7",
+      "RHEL 7",
+      "STIG"
+    ],
+
+    "languages": [
+      "Ansible",
+      "YML"
+    ],
+
+    "contact": {
+      "name": "Eric Martinez",
+      "email": "emartinez@usgs.gov"
+    },
+
+    "date": {
+      "metadataLastUpdated": "2018-10-01"
+    }
+  }
+]
