@@ -6345,25 +6345,6 @@
         - CJIS-5.5.6
         - DISA-STIG-RHEL-07-040390
 
-    - name: "Disable GSSAPI Authentication"
-      lineinfile:
-        create: yes
-        dest: /etc/ssh/sshd_config
-        regexp: (?i)^#?gssapiauthentication
-        line: GSSAPIAuthentication no
-        validate: sshd -t -f %s
-      #notify: sshd -t -f %s
-      tags:
-        - sshd_disable_gssapi_auth
-        - medium_severity
-        - restrict_strategy
-        - low_complexity
-        - low_disruption
-        - CCE-80220-7
-        - NIST-800-53-CM-6(c)
-        - NIST-800-171-3.1.12
-        - DISA-STIG-RHEL-07-040430
-
     - name: "Disable Kerberos Authentication"
       lineinfile:
         create: yes
