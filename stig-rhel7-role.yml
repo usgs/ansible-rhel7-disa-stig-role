@@ -6439,7 +6439,7 @@
     - name: XCCDF Value sshd_idle_timeout_value # promote to variable
       set_fact:
         sshd_idle_timeout_value: !!str |-
-            600
+            0
       tags:
         - always
 
