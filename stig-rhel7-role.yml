@@ -909,7 +909,7 @@
     - name: XCCDF Value var_password_pam_minlen # promote to variable
       set_fact:
         var_password_pam_minlen: !!str |-
-            15
+           12 
       tags:
         - always
 
