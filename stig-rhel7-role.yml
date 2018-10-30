@@ -6633,7 +6633,6 @@
         - NIST-800-171-3.13.8
         - DISA-STIG-RHEL-07-040400
 
-
     - name: Ensure vsftpd is removed
       package:
         name="{{item}}"
@@ -6651,4 +6650,143 @@
         - NIST-800-53-CM-7
         - DISA-STIG-RHEL-07-040690
 
+    - name: XCCDF Value var_password_pam_unix_remember # promote to variable
+      set_fact:
+        var_password_pam_unix_remember: !!str |-
+            24
+      tags:
+        - always
+  
+    - name: "Do not allow users to reuse recent passwords - system-auth (change)"
+      replace:
+        dest: /etc/pam.d/system-auth
+        follow: yes
+        regexp: '^(password\s+sufficient\s+pam_unix\.so\s.*remember\s*=\s*)(\S+)(.*)$'
+        replace: '\g<1>{{ var_password_pam_unix_remember }}\g<3>'
+      tags:
+        - accounts_password_pam_unix_remember
+        - medium_severity
+        - configure_strategy
+        - low_complexity
+        - medium_disruption
+        - CCE-26923-3
+        - NIST-800-53-IA-5(f)
+        - NIST-800-53-IA-5(1)(e)
+        - NIST-800-171-3.5.8
+        - PCI-DSS-Req-8.2.5
+        - CJIS-5.6.2.1.1
+        - DISA-STIG-RHEL-07-010270
+
+    - name: "Do not allow users to reuse recent passwords - system-auth (add)"
+      replace:
+        dest: /etc/pam.d/system-auth
+        follow: yes
+        regexp: '^password\s+sufficient\s+pam_unix\.so\s(?!.*remember\s*=\s*).*$'
+        replace: '\g<0> remember={{ var_password_pam_unix_remember }}'
+      tags:
+        - accounts_password_pam_unix_remember
+        - medium_severity
+        - configure_strategy
+        - low_complexity
+        - medium_disruption
+        - CCE-26923-3
+        - NIST-800-53-IA-5(f)
+        - NIST-800-53-IA-5(1)(e)
+        - NIST-800-171-3.5.8
+        - PCI-DSS-Req-8.2.5
+        - CJIS-5.6.2.1.1
+        - DISA-STIG-RHEL-07-010270
+
+    - name: XCCDF Value var_accounts_passwords_pam_faillock_deny # promote to variable
+      set_fact:
+        var_accounts_passwords_pam_faillock_deny: !!str |-
+            5
+      tags:
+        - always
+
+    - name: XCCDF Value var_accounts_passwords_pam_faillock_unlock_time # promote to variable
+      set_fact:
+        var_accounts_passwords_pam_faillock_unlock_time: !!str |-
+            900
+      tags:
+        - always
+
+    - name: XCCDF Value var_accounts_passwords_pam_faillock_fail_interval # promote to variable
+      set_fact:
+        var_accounts_passwords_pam_faillock_fail_interval: !!str |-
+            900
+      tags:
+        - always
+
+    - name: set auth pam_faillock before pam_unix.so
+      pamd:
+        name: system-auth
+        type: auth
+        control: sufficient
+        module_path: pam_unix.so
+        new_type: auth
+        new_control: required
+        new_module_path: pam_faillock.so
+        module_arguments: 'preauth
+            silent
+            even_deny_root
+            deny: {{ var_accounts_passwords_pam_faillock_deny }}
+            unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
+            fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}'
+        state: before
+      tags:
+        - accounts_passwords_pam_faillock_deny_root
+        - medium_severity
+        - restrict_strategy
+        - low_complexity
+        - low_disruption
+        - CCE-80353-6
+        - NIST-800-53-AC-7(b)
+        - DISA-STIG-RHEL-07-010330
+
+    - name: set auth pam_faillock after pam_unix.so
+      pamd:
+        name: system-auth
+        type: auth
+        control: sufficient
+        module_path: pam_unix.so
+        new_type: auth
+        new_control: '[default=die]'
+        new_module_path: pam_faillock.so
+        module_arguments: 'preauth
+            silent
+            even_deny_root
+            deny: {{ var_accounts_passwords_pam_faillock_deny }}
+            unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
+            fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}'
+        state: after
+      tags:
+        - accounts_passwords_pam_faillock_deny_root
+        - medium_severity
+        - restrict_strategy
+        - low_complexity
+        - low_disruption
+        - CCE-80353-6
+        - NIST-800-53-AC-7(b)
+        - DISA-STIG-RHEL-07-010330
+
+    - name: set account pam_faillock before pam_unix.so
+      pamd:
+        name: system-auth
+        type: account
+        control: required
+        module_path: pam_unix.so
+        new_type: account
+        new_control: required
+        new_module_path: pam_faillock.so
+        state: before
+      tags:
+        - accounts_passwords_pam_faillock_deny_root
+        - medium_severity
+        - restrict_strategy
+        - low_complexity
+        - low_disruption
+        - CCE-80353-6
+        - NIST-800-53-AC-7(b)
+        - DISA-STIG-RHEL-07-010330
 
