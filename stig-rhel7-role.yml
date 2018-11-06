@@ -650,6 +650,7 @@
         opts: "{{ device_cur_mountoption.stdout }},nosuid"
         state: "mounted"
         fstype: "{{device_fstype.stdout}}"
+      ignore_errors: yes
       tags:
         - mount_option_nosuid_removable_partitions
         - low_severity
@@ -672,6 +673,7 @@
         state="stopped"
       with_items:
         - autofs
+      ignore_errors: yes
       tags:
         - service_autofs_disabled
         - medium_severity
