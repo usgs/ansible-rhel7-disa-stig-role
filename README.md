@@ -14,13 +14,22 @@ $ oscap xccdf generate fix \
 ```
 
 The playbook was then modified to suite the USGS environment. The playbook can
-be run on a system by cloning this repository, navigating to the
-`ansible-rhel7-disa-stig-role` directory, and running the following
-command:
+be run on a system by running the following command:
 
 ```
-$ ansible-playbook -i "localhost," -c local --check stig-rhel7-role.yml
+$ $ ansible-pull \
+  -U https://github.com/usgs/ansible-rhel7-disa-stig-role.git \
+  -i "localhost," \
+  --check \
+  stig-rhel7-role.yml
 ```
 
 Optionally omit the `--check` switch to have Ansible attempt to apply the
 necessary fixes.
+
+## Installing Ansible
+
+```
+$ rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+$ yum install -y ansible git
+```
