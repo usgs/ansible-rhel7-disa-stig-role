@@ -1,8 +1,43 @@
 # ansible-rhel7-disa-stig-role
 
-This project reflects the USGS STIG for RHEL 7 (and similar) systems. The
-STIG is checked and possibly implemented via Ansible. The playbook was
-originally generated using the following commands on an RHEL 7 system:
+This project reflects the USGS STIG for RHEL 7 (and similar) systems.
+
+## Getting Started
+
+To run this playbook, log in to the RHEL 7 (or similar) system on which the
+STIG is to be applied. Ansible is required on this system (see below). The
+system's current compliance can be checked with the `--check` switch
+(see below). The system can be manually configured to meet compliance or
+Ansible may be run without the `--check` switch to apply the necessary changes.
+
+This is tested and known to work with basic RHEL 7 (or similar) systems, but
+may produce unexpected results with custom configurations.
+
+### Install Ansible
+
+```
+$ rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+$ yum install -y ansible git
+```
+
+### Check Compliance
+
+The playbook can be run with the `--check` switch to examine the current state
+of the system The playbook can be run on a system by running the following command:
+
+```
+$ ansible-pull \
+  -U https://github.com/usgs/ansible-rhel7-disa-stig-role.git \
+  -i "localhost," \
+  --check \
+  stig-rhel7-role.yml
+```
+
+Optionally omit the `--check` switch to have Ansible attempt to apply the
+necessary fixes.
+
+The playbook was originally generated using the following commands on an
+RHEL 7 system:
 
 ```
 $ yum install -y scap-security-guide
@@ -13,23 +48,4 @@ $ oscap xccdf generate fix \
   /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
 ```
 
-The playbook was then modified to suite the USGS environment. The playbook can
-be run on a system by running the following command:
-
-```
-$ $ ansible-pull \
-  -U https://github.com/usgs/ansible-rhel7-disa-stig-role.git \
-  -i "localhost," \
-  --check \
-  stig-rhel7-role.yml
-```
-
-Optionally omit the `--check` switch to have Ansible attempt to apply the
-necessary fixes.
-
-## Installing Ansible
-
-```
-$ rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-$ yum install -y ansible git
-```
+The playbook was then modified to suite the USGS environment.
