@@ -33,8 +33,24 @@ $ ansible-pull \
   stig-rhel7-role.yml
 ```
 
-Optionally omit the `--check` switch to have Ansible attempt to apply the
-necessary fixes.
+### Automatically Apply STIG (Optional)
+
+The STIG can be automatically applied to bring your system into compliance by
+ommitting the `--check` switch from the previous command. For example:
+
+```
+$ ansible-pull \
+  -U https://github.com/usgs/ansible-rhel7-disa-stig-role.git \
+  -i "localhost," \
+  stig-rhel7-role.yml
+```
+
+If you choose not to automatically apply the STIG settings, you must manually
+apply them yourself. You can repeatedly `Check Compliance` using the command
+in the section above in order to verify your system is in compliance.
+
+
+### Provenance
 
 The playbook was originally generated using the following commands on an
 RHEL 7 system:
