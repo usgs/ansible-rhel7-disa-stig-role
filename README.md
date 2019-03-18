@@ -1,3 +1,5 @@
+> This project has been archived to internal resources as of 2019-03-18.
+
 # ansible-rhel7-disa-stig-role
 
 This project reflects the USGS STIG for RHEL 7 (and similar) systems. The
